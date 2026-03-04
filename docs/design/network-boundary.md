@@ -7,6 +7,8 @@ title: "Network Boundary"
 
 Longxia is a controlled-boundary fork. Runtime outbound integrations must stay inside a reviewed allowlist.
 
+See also: [Project Blueprint](./project-blueprint.md)
+
 ## Default policy
 
 - Only bundled, preapproved capabilities may run in production.

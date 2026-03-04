@@ -1,110 +1,122 @@
-## OpenClaw Vision
+# Longxia Vision
 
-OpenClaw is the AI that actually does things.
-It runs on your devices, in your channels, with your rules.
+Longxia is a controlled-boundary AI gateway built for operators who need predictable deployment, strong defaults, and mainland-friendly distribution paths.
 
-This document explains the current state and direction of the project.
-We are still early, so iteration is fast.
-Project overview and developer docs: [`README.md`](README.md)
-Contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md)
+This repository is a hard fork of OpenClaw. The goal is not to preserve every upstream capability. The goal is to turn the codebase into a deployable platform with a narrower, clearer product surface:
 
-OpenClaw started as a personal playground to learn AI and build something genuinely useful:
-an assistant that can run real tasks on a real computer.
-It evolved through several names and shells: Warelay -> Clawdbot -> Moltbot -> OpenClaw.
+- controlled runtime boundaries
+- review-first integrations
+- domestic-friendly install and update paths
+- multi-tenant SaaS as the default commercial direction
+- dedicated isolation only as a paid upgrade path
 
-The goal: a personal assistant that is easy to use, supports a wide range of platforms, and respects privacy and security.
+## Product Positioning
 
-The current focus is:
+Longxia is not trying to be a generic "connect everything" agent shell.
+It is positioned as:
 
-Priority:
+- a controlled AI gateway for personal operators, small teams, and enterprise pilots
+- a China-oriented distribution of the upstream architecture
+- a platform where runtime extension and uncontrolled egress are design exceptions, not baseline features
 
-- Security and safe defaults
-- Bug fixes and stability
-- Setup reliability and first-run UX
+The default deployment model is:
 
-Next priorities:
+- one operator-controlled gateway per trust boundary
+- approved integrations bundled at build time
+- local docs, local scripts, and approved mirrors for install/update
 
-- Supporting all major model providers
-- Improving support for major messaging channels (and adding a few high-demand ones)
-- Performance and test infrastructure
-- Better computer-use and agent harness capabilities
-- Ergonomics across CLI and web frontend
-- Companion apps on macOS, iOS, Android, Windows, and Linux
+## What Longxia Optimizes For
 
-Contribution rules:
+Priority order:
 
-- One PR = one issue/topic. Do not bundle multiple unrelated fixes/features.
-- PRs over ~5,000 changed lines are reviewed only in exceptional circumstances.
-- Do not open large batches of tiny PRs at once; each PR has review cost.
-- For very small related fixes, grouping into one focused PR is encouraged.
+- security boundaries that are simple to explain and audit
+- setup paths that work in mainland network conditions
+- stable first-run experience
+- predictable operations and upgrade behavior
+- clear tenancy/accounting hooks for future SaaS operation
 
-## Security
+Longxia does not optimize first for:
 
-Security in OpenClaw is a deliberate tradeoff: strong defaults without killing capability.
-The goal is to stay powerful for real work while making risky paths explicit and operator-controlled.
+- maximum number of messaging connectors
+- public plugin marketplaces
+- arbitrary runtime package installation
+- fast-moving experimental integrations without review
 
-Canonical security policy and reporting:
+## Product Tiers
 
-- [`SECURITY.md`](SECURITY.md)
+The commercial direction should stay aligned with the technical architecture.
 
-We prioritize secure defaults, but also expose clear knobs for trusted high-power workflows.
+### Tier 1: Shared SaaS
 
-## Plugins & Memory
+Default offering for individuals and small teams.
 
-OpenClaw has an extensive plugin API.
-Core stays lean; optional capability should usually ship as plugins.
+- multi-tenant isolation
+- per-tenant credentials
+- sandboxed tool execution
+- strict egress controls
+- shared worker pools and shared infra
 
-Preferred plugin path in Longxia is reviewed source integration plus local extension loading for development.
-If you build an extension, maintain it in your own controlled repository.
-The bar for adding optional plugins to core is intentionally high.
-Plugin docs: [`docs/tools/plugin.md`](docs/tools/plugin.md)
-There is no public community plugin listing in this fork.
+This is the primary path to product-market fit.
 
-Memory is a special plugin slot where only one memory plugin can be active at a time.
-Today we ship multiple memory options; over time we plan to converge on one recommended default path.
+### Tier 2: Dedicated Resource Pool
 
-### Skills
+For higher-value teams that need stronger performance and operational separation without full private deployment.
 
-We still ship some bundled skills for baseline UX.
-New skills should be reviewed and distributed through your own controlled source, not added to core by default.
-Core skill additions should be rare and require a strong product or security reason.
+- dedicated job queues
+- dedicated concurrency quotas
+- dedicated worker pool
+- optional dedicated outbound IP or proxy path
 
-### MCP Support
+This is the main “Pro” upgrade path.
 
-Longxia can integrate with MCP-compatible tooling, but external bridges should be treated as explicitly reviewed optional dependencies.
+### Tier 3: Dedicated Deployment
 
-This keeps MCP integration flexible and decoupled from core runtime:
+For enterprise and regulated customers.
 
-- add or change MCP servers without restarting the gateway
-- keep core tool/context surface lean
-- reduce MCP churn impact on core stability and security
+- dedicated namespace or cluster
+- dedicated VPC or private network path
+- customer-specific secrets, audit, and integration policies
 
-For now, we prefer this bridge model over building first-class MCP runtime into core.
-If there is an MCP server or feature `mcporter` does not support yet, please open an issue there.
+This should be sold as a higher-touch enterprise offering, not the baseline product.
 
-### Setup
+## Technical Direction
 
-OpenClaw is currently terminal-first by design.
-This keeps setup explicit: users see docs, auth, permissions, and security posture up front.
+Longxia should converge on these architectural rules:
 
-Long term, we want easier onboarding flows as hardening matures.
-We do not want convenience wrappers that hide critical security decisions from users.
+- all sensitive actions carry tenant and actor identity
+- all external dependencies are explicit and reviewable
+- outbound traffic defaults to approved mirrors and approved service endpoints
+- long-lived optional runtime extension systems stay disabled by default
+- build-time bundling is preferred over runtime mutation
 
-### Why TypeScript?
+Core system layers:
 
-OpenClaw is primarily an orchestration system: prompts, tools, protocols, and integrations.
-TypeScript was chosen to keep OpenClaw hackable by default.
-It is widely known, fast to iterate in, and easy to read, modify, and extend.
+- Gateway: long-lived control plane and policy enforcement point
+- Clients: CLI, web UI, mobile/desktop shells
+- Nodes: device-side capability providers
+- Worker sandboxes: short-lived execution units for risky or metered work
+- Control data plane: config, usage, auth, and audit records
 
-## What We Will Not Merge (For Now)
+## Long-Term Success Criteria
 
-- New core skills when they can live on ClawHub
-- Full-doc translation sets for all docs (deferred; we plan AI-generated translations later)
-- Commercial service integrations that do not clearly fit the model-provider category
-- Wrapper channels around already supported channels without a clear capability or security gap
-- First-class MCP runtime in core when `mcporter` already provides the integration path
-- Agent-hierarchy frameworks (manager-of-managers / nested planner trees) as a default architecture
-- Heavy orchestration layers that duplicate existing agent and tool infrastructure
+Longxia is succeeding when:
 
-This list is a roadmap guardrail, not a law of physics.
-Strong user demand and strong technical rationale can change it.
+- a new operator can install and run it without relying on blocked or fragile upstream links
+- the runtime boundary is easy to explain in one page
+- the default SaaS architecture can support tenants without per-user servers
+- enterprise isolation can be added as a controlled upgrade, not a rewrite
+- upstream changes can be selectively merged without breaking Longxia’s boundary rules
+
+## Guardrails
+
+Longxia should continue to reject these by default:
+
+- public plugin marketplaces
+- runtime plugin install/update as a normal user workflow
+- Telegram, Discord, and WhatsApp as baseline product channels
+- uncontrolled outbound fetches to arbitrary third-party services
+- product complexity that exists only to preserve upstream breadth
+
+## Working Rule
+
+When there is a conflict between breadth and control, Longxia should prefer control.
