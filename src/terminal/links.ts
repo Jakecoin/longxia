@@ -1,0 +1,31 @@
+import { formatTerminalLink } from "../utils.js";
+
+export const DOCS_ROOT = "./docs";
+
+export function formatDocsLink(
+  path: string,
+  label?: string,
+  opts?: { fallback?: string; force?: boolean },
+): string {
+  const trimmed = path.trim();
+  const localDocs = !DOCS_ROOT.startsWith("http");
+  const url = trimmed.startsWith("http")
+    ? trimmed
+    : `${DOCS_ROOT}${trimmed.startsWith("/") ? trimmed : `/${trimmed}`}`;
+  if (localDocs && !trimmed.startsWith("http")) {
+    return opts?.fallback ?? url;
+  }
+  return formatTerminalLink(label ?? url, url, {
+    fallback: opts?.fallback ?? url,
+    force: opts?.force,
+  });
+}
+
+export function formatDocsRootLink(label?: string): string {
+  if (!DOCS_ROOT.startsWith("http")) {
+    return label ?? DOCS_ROOT;
+  }
+  return formatTerminalLink(label ?? DOCS_ROOT, DOCS_ROOT, {
+    fallback: DOCS_ROOT,
+  });
+}

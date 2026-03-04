@@ -1,0 +1,7 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Longxia</title>
+        <description>Longxia does not ship a public appcast feed in this fork. Use local builds or your own controlled release channel.</description>
+    </channel>
+</rss>
